@@ -1,0 +1,20 @@
+# ansible-playbook provision.yaml --ask-become-pass -u
+
+- name: Provision moose-one
+  hosts: all
+  gather_facts: yes
+  # vars_prompt:
+  # - name: partName
+  #   prompt: What is the partition name?
+  #   private: no
+  #   default: "xvda"
+  # - name: partNum
+  #   prompt: What is the partition number?
+  #   private: no
+  #   default: "3"
+
+  roles:
+    - role: install_docker
+      become: yes
+
+    - role: configuration
