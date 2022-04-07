@@ -51,18 +51,25 @@
 
 # - name: Non-root docker management -- newgrp
 #   shell: newgrp docker
+- name: Check if docker-compose is present
+  stat:
+    path: /usr/local/bin/docker-compose
+  register: docker_compose_binary
 
 - name: Download docker-compose
   shell: sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  when: not docker_compose_binary.stat.exists
 
 - name: Make compose executable
   shell: sudo chmod +x /usr/local/bin/docker-compose
+  when: not docker_compose_binary.stat.exists
 
 - name: Add docker-compose auto-completion
   shell: |
     sudo curl \
     -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/bash/docker-compose \
     -o /etc/bash_completion.d/docker-compose
+  when: not docker_compose_binary.stat.exists
       
 - name: Test installation
   shell: docker run hello-world

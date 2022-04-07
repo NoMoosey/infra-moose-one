@@ -21,6 +21,6 @@ resource "proxmox_vm_qemu" "moose-one" {
 }
 
 resource "local_file" "ansible_inventory" {
-  filename = "../ansible/inventory.ini"
+  filename = "../ansible/terraform_inventory.ini"
   content = split("/", substr(proxmox_vm_qemu.moose-one.ipconfig0, 15, 18))[0]
 }

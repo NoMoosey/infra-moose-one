@@ -3,6 +3,7 @@
 - name: Provision moose-one
   hosts: all
   gather_facts: yes
+  remote_user: moose
   # vars_prompt:
   # - name: partName
   #   prompt: What is the partition name?
@@ -17,4 +18,6 @@
     - role: install_docker
       become: yes
 
-    - role: configuration
+    #- role: configuration
+
+    - role: setup_repos

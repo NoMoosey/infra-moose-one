@@ -1,0 +1,34 @@
+- name: Copy github deploy key
+  copy:
+    src: ../../configs/proxmox/moose-one_deploy
+    dest: /home/moose/.ssh/moose-one_deploy
+    owner: moose
+    group: moose
+    mode: 0600
+
+- name: Add Github host to ssh configs
+  blockinfile:
+    path: /home/moose/.ssh/config
+    block: |
+      # Specify deploy key for Github
+      Host github.com
+        IdentityFile = ~/.ssh/moose-one_deploy
+        IdentitiesOnly yes
+    create: true
+    owner: moose
+    group: moose
+    mode: 0600
+
+- name: Clone configs repository
+  git:
+    repo: "git@github.com:NoMoosey/configs.git"
+    dest: /home/moose/configs/
+    accept_hostkey: yes
+    key_file: /home/moose/.ssh/moose-one_deploy
+
+- name: Clone docker-stacks repository
+  git:
+    repo: "git@github.com:NoMoosey/docker-stacks.git"
+    dest: /home/moose/docker-stacks/
+    accept_hostkey: yes
+    key_file: /home/moose/.ssh/moose-one_deploy
