@@ -1,0 +1,28 @@
+
+- name: Create NFS mount folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+  loop:
+    - /nfs/lab
+    - /nfs/media
+    - /nfs/rsync
+    - /mnt
+
+- name: Install nfs-common
+  apt:
+    pkg: nfs-common
+    state: present
+    update_cache: yes
+
+- name: Update fstab
+  blockinfile:
+    block: "{{ fstab_entries }}"
+    path: /etc/fstab
+    backup: yes
+
+- name: Mount all shares
+  shell: mount -a
+  ignore_errors: true

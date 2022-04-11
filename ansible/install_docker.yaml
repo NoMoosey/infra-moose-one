@@ -1,0 +1,10 @@
+# ansible-playbook provision.yaml --ask-become-pass -u
+
+- name: Install Docker
+  hosts: all
+  gather_facts: yes
+  remote_user: moose
+
+  roles:
+    - role: install_docker
+      become: yes

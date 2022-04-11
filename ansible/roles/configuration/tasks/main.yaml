@@ -1,6 +1,0 @@
-
-- name: Copy private key for moose-one
-  copy:
-    src: ~/programming/repos/configs/proxmox/moose-one-private-key
-    dest: /home/moose/.ssh/moose-one-private-key
-    

@@ -1,0 +1,10 @@
+# ansible-playbook provision.yaml --ask-become-pass -u
+
+- name: Disable apparmor
+  hosts: all
+  gather_facts: yes
+  remote_user: moose
+
+  roles:
+    - role: disable_apparmor
+      become: yes

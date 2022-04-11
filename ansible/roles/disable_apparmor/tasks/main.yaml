@@ -1,0 +1,24 @@
+
+- name: Change grub parameters
+  lineinfile:
+    line: apparmor=0
+    path: /etc/default/grub
+
+- name: Stop apparmor
+  systemd:
+    name: apparmor
+    state: stopped
+  ignore_errors: true
+
+- name: Disable apparmor service
+  shell: systemd disable apparmor
+  ignore_errors: true
+
+- name: Remove apparmor package
+  apt:
+    pkg: apparmor
+    state: absent
+    purge: yes
+
+- name: Reboot the machine
+  reboot:

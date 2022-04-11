@@ -1,0 +1,4 @@
+fstab_entries: |
+  10.1.0.200:/volume1/lab                 /nfs/lab        nfs     defaults        0       0
+  10.1.0.200:/volume1/media               /nfs/media      nfs     defaults        0       0
+  #10.1.0.200:/volume1/rsync_backups       /nfs/rsync      nfs     defaults        0       0

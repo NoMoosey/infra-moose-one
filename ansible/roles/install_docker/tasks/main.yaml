@@ -49,8 +49,6 @@
     groups: docker
     name: moose
 
-# - name: Non-root docker management -- newgrp
-#   shell: newgrp docker
 - name: Check if docker-compose is present
   stat:
     path: /usr/local/bin/docker-compose
@@ -74,3 +72,27 @@
 - name: Test installation
   shell: docker run hello-world
 
+- name: Add mountflags to service file
+  lineinfile:
+    path: /lib/systemd/system/docker.service
+    line: MountFlags=shared
+    firstmatch: yes
+    insertafter: '\[Service\]'
+    state: present
+    backup: yes
+
+- name: Reload the daemon
+  systemd:
+    daemon_reload: yes
+
+- name: Restart Docker service
+  systemd:
+    name: docker
+    state: restarted
+
+- name: Ensure the required pip docker modules are installed
+  pip:
+    name: 
+      - docker
+      - docker-compose
+      - pyyaml

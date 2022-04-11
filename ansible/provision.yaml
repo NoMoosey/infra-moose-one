@@ -4,20 +4,20 @@
   hosts: all
   gather_facts: yes
   remote_user: moose
-  # vars_prompt:
-  # - name: partName
-  #   prompt: What is the partition name?
-  #   private: no
-  #   default: "xvda"
-  # - name: partNum
-  #   prompt: What is the partition number?
-  #   private: no
-  #   default: "3"
 
-  roles:
-    - role: install_docker
-      become: yes
+  tasks:
+    - name: Install docker
+      include_role:
+        name: install_docker
+      vars:
+        ansible_become: yes
 
-    #- role: configuration
+    - name: Setup git repositories
+      include_role:
+        name: setup_repos
 
-    - role: setup_repos
+    - name: Setup mounts
+      include_role:
+        name: setup_mounts
+      vars:
+        ansible_become: yes

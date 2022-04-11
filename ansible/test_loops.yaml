@@ -1,0 +1,36 @@
+---
+- name: Sandbox to test things quickly
+  hosts: all
+  gather_facts: yes
+  remote_user: moose
+
+  tasks:
+    - name: Find directories in a path
+      find:
+        file_type: directory
+        path: ~/docker-stacks
+        recurse: no
+        exclude: "swarm"
+      register: stacks
+
+    - name: Print the found directories
+      debug:
+        var: stacks
+
+    - name: Display path to compose files
+      debug:
+        msg: "{{ item.path }}/docker-compose.yaml"
+      loop: "{{ stacks.files }}"
+
+    - name: Attempt to raise stacks
+      community.docker.docker_compose:
+        state: present
+        debug: yes
+        pull: yes
+        recreate: always
+        project_src: "{{ item.path }}"
+
+      loop: "{{ stacks.files }}"
+
+
+      

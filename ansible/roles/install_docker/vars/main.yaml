@@ -4,3 +4,4 @@ DOCKER_REQ:
   - curl
   - gnupg
   - lsb-release
+  - python3-pip
