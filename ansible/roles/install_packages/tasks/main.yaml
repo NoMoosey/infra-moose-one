@@ -1,0 +1,13 @@
+- name: Install pip
+  apt:
+    name: python3-pip
+    state: present
+    update_cache: yes
+    force_apt_get: yes
+  become: yes
+
+- name: Install Ansible
+  pip:
+    name: ansible
+    state: present
+  become: yes

@@ -6,6 +6,10 @@
   remote_user: moose
 
   tasks:
+    - name: Install initial packages
+      ansible.builtin.include_role:
+        name: install_packages
+
     - name: Install docker
       include_role:
         name: install_docker
@@ -29,3 +33,7 @@
     - name: Start Docker stacks
       ansible.builtin.include_role:
         name: start_docker_stacks
+
+    - name: Finished
+      ansible.builtin.debug:
+        msg: Thank god that is over with!

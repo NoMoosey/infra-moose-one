@@ -4,13 +4,15 @@
     file_type: directory
     path: ~/docker-stacks
     recurse: no
-    exclude: "swarm"
+    excludes: 
+      - "swarm"
+      - "utilities"
   register: stacks
 
-# - name: Display path to compose files
-#   debug:
-#     msg: "{{ item.path }}/docker-compose.yaml"
-#   loop: "{{ stacks.files }}"
+- name: Compose files to start
+  debug:
+    msg: "{{ item.path }}/docker-compose.yaml"
+  loop: "{{ stacks.files }}"
 
 - name: Create Traefik network
   community.docker.docker_network:

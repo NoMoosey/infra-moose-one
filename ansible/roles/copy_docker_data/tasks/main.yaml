@@ -12,3 +12,12 @@
     remote_src: yes
     src: /nfs/lab/backups/moose-one/moose-one-gfs.tar
     dest: /mnt
+
+- name: Set up cron job for data backups
+  ansible.builtin.cron:
+    hour: "3"
+    minute: "0"
+    name: backup-docker
+    job: "ansible-playbook /home/moose/docker-stacks/utilities/backup_playbook.yaml >> /home/moose/cron.log 2>&1"
+  become: yes
+
