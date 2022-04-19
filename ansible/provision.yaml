@@ -21,3 +21,11 @@
         name: setup_mounts
       vars:
         ansible_become: yes
+
+    - name: Copy latest Docker data
+      ansible.builtin.include_role:
+        name: copy_docker_data
+
+    - name: Start Docker stacks
+      ansible.builtin.include_role:
+        name: start_docker_stacks

@@ -1,0 +1,29 @@
+
+- name: Find directories in a path
+  find:
+    file_type: directory
+    path: ~/docker-stacks
+    recurse: no
+    exclude: "swarm"
+  register: stacks
+
+# - name: Display path to compose files
+#   debug:
+#     msg: "{{ item.path }}/docker-compose.yaml"
+#   loop: "{{ stacks.files }}"
+
+- name: Create Traefik network
+  community.docker.docker_network:
+    name: traefik_traffic
+    attachable: yes
+    internal: no
+    scope: local
+
+- name: Attempt to start stacks
+  community.docker.docker_compose:
+    state: present
+    debug: yes
+    pull: yes
+    project_src: "{{ item.path }}"
+    remove_orphans: yes
+  loop: "{{ stacks.files }}"

@@ -1,0 +1,14 @@
+- name: Check for mount directory and create it if not found
+  become: yes
+  file:
+    path: /mnt
+    state: directory
+    owner: root
+    group: root
+
+- name: Copy latest archived docker data
+  become: yes
+  ansible.builtin.unarchive:
+    remote_src: yes
+    src: /nfs/lab/backups/moose-one/moose-one-gfs.tar
+    dest: /mnt
